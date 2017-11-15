@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.uc.yqb.mapper.NewsMapper">
+  <select id="selectAll" resultType="News" resultMap="NewsMap">
+    select * from t_news
+  </select>
+  <select id="selectById" parameterType="int" resultType="News" resultMap="NewsMap">
+    select * from t_news where id=#{id}
+  </select>
+  <select id="selectByPage" parameterType="int" resultType="News" resultMap="NewsMap">
+    select * from t_news limit #{num},10
+  </select>
+  <insert id="insert" parameterType="News">
+    insert into t_news(t_t_id,n_title,n_source,n_author,n_content,n_createtime,n_commcount,n_readcount,n_sharecount,n_ifhot,n_ifreport) 
+    values(#{type},#{title},#{source},#{author},#{content},#{creatTime},#{commCount},#{readCount},#{shareCount},#{hot},#{report})
+    <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+    </selectKey>
+  </insert>
+  <delete id="delete" parameterType="int">
+    delete from t_news where id=#{id}
+  </delete> 
+  <update id="update" parameterType="News">
+  	update t_news set t_t_id=#{type},n_title=#{title},n_source=#{source},n_author=#{author},n_content=#{content},n_createtime=#{creatTime},
+  	n_commcount=#{commCount},n_readcount=#{readCount},n_sharecount=#{shareCount},n_ifhot=#{hot},n_ifreport=#{report} where id=#{id}
+  </update>
+  
+  <resultMap type="News" id="NewsMap">
+  	<id property="id" column="id" />
+  	<result property="type" column="t_t_id" />
+  	<result property="title" column="n_title" />
+  	<result property="source" column="n_source" />
+  	<result property="author" column="n_author" />
+  	<result property="content" column="n_content" />
+  	<result property="creatTime" column="n_createtime" />
+  	<result property="commCount" column="n_commcount" />
+  	<result property="readCount" column="n_readcount" />
+  	<result property="shareCount" column="n_sharecount" />
+  	<result property="hot" column="n_ifhot" />
+  	<result property="report" column="n_ifreport" />
+  </resultMap>
+</mapper>

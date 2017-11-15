@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace:命名空间，声明当前xml的资源的路径   所在包+mapper名作为命名空间-->
+<mapper namespace="cn.uc.yqb.mapper.UserMapper">
+  <select id="selectAll" resultType="User" resultMap="UserMap">
+    select * from t_user
+  </select>
+  <select id="login" parameterType="User" resultType="User" resultMap="UserMap">
+    select * from t_user where u_username=#{userName} and u_password=#{passWord} and u_state!=0
+  </select>
+  <select id="selectById" parameterType="int" resultType="User" resultMap="UserMap">
+    select * from t_user where id=#{id}
+  </select>
+  <insert id="insert" parameterType="User">
+    insert into t_user(u_username,u_nickname,u_password,u_sex,u_phone,u_email,u_birthday,u_headimg,u_state,u_remark,u_createtime,u_updatetime,u_province_id,u_city_id,u_area_id) 
+    values (#{userName},#{nickName},#{passWord},#{sex},#{phoneNum},#{email},#{birthday},#{headImg},#{state},#{remark},#{creatTime},#{updateTime},#{province},#{city},#{area})
+    <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+    </selectKey>
+  </insert>
+  <delete id="delete" parameterType="int" >
+    delete from t_user where id=#{id};
+  </delete> 
+  <update id="update" parameterType="User" >
+  	update t_user set u_username=#{userName},u_nickname=#{nickName},u_password=#{passWord},u_sex=#{sex},u_phone=#{phoneNum},u_email=#{email},u_birthday=#{birthday},u_headimg=#{headImg},
+	u_state=#{state},u_remark=#{remark},u_createtime=#{creatTime},u_updatetime=#{updateTime},u_province_id=#{province},u_city_id=#{city},u_area_id=#{area} where id=#{id}
+  </update>
+  	<resultMap type="User" id="UserMap">
+	<id property="id" column="id" />
+	<result property="userName" column="u_username" />
+	<result property="nickName" column="u_nickname" />
+	<result property="passWord" column="u_password" />
+	<result property="sex" column="u_sex" />
+	<result property="phoneNum" column="u_phone" />
+	<result property="email" column="u_email" />
+	<result property="birthday" column="u_birthday" />
+	<result property="headImg" column="u_headimg" />
+	<result property="state" column="u_state" />
+	<result property="remark" column="u_remark" />
+	<result property="creatTime" column="u_createtime" />
+	<result property="updateTime" column="u_updatetime" />
+	<result property="province" column="u_province_id" />
+	<result property="city" column="u_city_id" />
+	<result property="area" column="u_area_id" />
+	</resultMap>
+</mapper>
+

@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.uc.yqb.mapper.CommentMapper">
+  <select id="selectAll" resultType="Comment" resultMap="CommentMap">
+    select * from t_comment
+  </select>
+  <select id="selectById" parameterType="int" resultType="Comment" resultMap="CommentMap">
+    select * from t_comment where id=#{id}
+  </select>
+  <insert id="insert" parameterType="Comment">
+    insert into t_comment(t_n_id,t_u_id,c_content,c_createtime,c_thumbscount) 
+    values(#{news},#{user},#{content},#{creatTime},#{zanScount})
+    <selectKey resultType="int" order="AFTER" keyProperty="id">
+            SELECT LAST_INSERT_ID() AS id
+    </selectKey>
+  </insert>
+  <delete id="delete" parameterType="int">
+    delete from t_comment where id=#{id}
+  </delete> 
+  <update id="update" parameterType="Comment">
+  	update t_comment set t_n_id=#{news},t_u_id=#{user},c_content=#{content},c_createtime=#{creatTime},c_thumbscount=#{zanScount} where id=#{id}
+  </update>
+  
+  <resultMap type="Comment" id="CommentMap">
+  	<id property="id" column="id" />
+  	<result property="news" column="t_n_id" />
+  	<result property="user" column="t_u_id" />
+  	<result property="content" column="c_content" />
+  	<result property="creatTime" column="c_createtime" />
+  	<result property="zanScount" column="c_thumbscount" />
+  </resultMap>
+</mapper>
